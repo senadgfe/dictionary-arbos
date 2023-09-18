@@ -1,0 +1,7 @@
+<h2>Edit Word</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ word_form.as_p }}
+    {{ grammar_form.as_p }}
+    <button type="submit">Save changes</button> 
+</form>

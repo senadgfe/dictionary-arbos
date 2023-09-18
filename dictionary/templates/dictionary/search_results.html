@@ -1,0 +1,27 @@
+{% extends 'dictionary/base.html' %}
+
+{% block content %}
+<h2>Search Results</h2>
+<ul>
+    {% for word in words %}
+        <li class="border shadow-md p-6 mb-6">
+           
+            <p>Bosanska riječ: {{ word }}</p>
+            <p>Arpski prevod: {{ word.translation }}</p>
+            <h4>Dodatno pojašnjenje:</h4>
+
+            <p>Povezane riječi: {% for related_word in word.related_words.all %}<a href="{% url 'word_detail' related_word.id %}">{{ related_word }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+           {% for grammar in word.grammar_rules.all %}
+              {% if grammar.content %}
+                  <p>{{ grammar.content|safe }}</p>
+              {% else %}
+                  <p>No grammar rules added yet.</p>
+              {% endif %}
+          {% endfor %}
+
+        </li>
+    {% empty %}
+        <li>No results found.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

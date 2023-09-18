@@ -1,0 +1,27 @@
+{% extends 'dictionary/base.html' %}
+
+{% load static %} <!-- Load static to be able to use static files -->
+
+
+{% block extrahead %}
+    <script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+    <script>
+        CKEDITOR.replace('id_content');
+    </script>
+{% endblock %}
+
+
+{% block content %}
+<h2>Add new word</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ word_form.as_p }}  <!-- This will include the Bosnian word, Arabic translation, and related words -->
+    {{ grammar_form.as_p }}  <!-- This will include the grammar rules -->
+
+    <script>
+    CKEDITOR.replace( 'id_content' ); // Replace 'id_content' with the actual id of the RichTextField in your rendered form
+    </script>
+    
+    <button type="submit">Save</button>
+</form>
+{% endblock %}

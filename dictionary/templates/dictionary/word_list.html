@@ -1,0 +1,28 @@
+{% extends 'dictionary/base.html' %}
+
+{% block content %} 
+<h2>Your words</h2>
+<ul>
+    {% for word in words %}
+        <li class="border shadow-md p-6 mb-6">
+            <h3>{{ word.text }}</h3>
+            <p>Arabic Translation: {{ word.translation }}</p>
+            <p>Related words: {% for related_word in word.related_words.all %}<a href="{% url 'word_detail' related_word.id %}">{{ related_word }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+                        <h4>Grammar rules:</h4>
+                            {% for grammar in word.grammar_rules.all %}
+                    {% if grammar.content %}
+                        <p>{{ grammar.content|safe }}</p>
+                    {% else %}
+                        <p>No grammar rules added yet.</p>
+                    {% endif %}
+                {% endfor %}
+            <div class="flex gap-4">
+                <a class="btn btn-primary bg-primary" href="{% url 'edit_word' word.id %}">Edit</a> 
+            <a class="btn btn-primary bg-red" href="{% url 'delete_word' word.id %}">Delete</a>
+            </div>
+        </li>
+    {% empty %}
+        <li>No words yet.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
